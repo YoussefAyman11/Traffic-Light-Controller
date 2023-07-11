@@ -1,0 +1,24 @@
+module tlc_dp(
+  input clk,
+  input reset_counter,
+  input [4:0] counts,
+  output reg count_done
+);
+  
+  reg [4:0] counter;
+  
+  always @(posedge clk) begin
+    if(reset) begin
+      count_done <= 0;
+      counter <= 0;
+    end
+    
+    else begin
+      counter <= counter + 1;
+      
+      if(counter == counts)
+        count_done <= 1;
+    end
+    
+  end
+endmodule

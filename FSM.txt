@@ -1,0 +1,89 @@
+module tlc_controller(
+  input clk,
+  input reset,
+  input count_done,
+  output red,
+  output yellow,
+  output green,
+  output reg reset_counter,
+  output reg [4:0] counts
+);
+  
+  parameter reg_width = 3;
+  parameter [reg_width - 1 : 0] rr = 3'd0,
+  								wr = 3'd1,
+  								ry = 3'd2,
+  								wy = 3'd3,
+  								rg = 3'd4,
+  								wg = 3'd5;
+  
+  reg [reg_width - 1 : 0] curr_state,next_state;
+  
+  always @(posedge clk) begin
+    if(reset)
+      curr_state = rr;
+    else
+      curr_state = next_state;
+  end
+  
+  always @(*) begin 
+    counts = 0;
+    reset_counter = 0;
+    red = 0;
+    yellow = 0;
+    green = 0;
+    
+    case(curr_state)
+      rr: begin
+        reset_counter = 1;
+        counts = 28;
+        red = 1;
+        next_state = wr;
+      end
+      
+      wr: begin
+        reset_counter = 0;
+        
+        if(count_done == 1)
+          next_state = ry;
+        else 
+          next_state = wr;
+      end
+      
+      ry: begin
+        reset_counter = 1;
+        counts = 3;
+        red = 0;
+        yellow = 1;
+        next_state = wy;
+      end
+      
+      wy: begin
+        reset_counter = 0;
+        
+        if(count_done == 1)
+          next_state = rg;
+        else 
+          next_state = wy;
+      end
+      
+      rg: begin
+        reset_counter = 1;
+        counts = 3;
+        green = 1;
+        yellow = 0;
+        next_state = wg;
+      end
+      
+      wg: begin
+        reset_counter = 0;
+        
+        if(count_done == 1)
+          next_state = rr;
+        else 
+          next_state = wg;
+      end
+      
+    endcase
+  end
+endmodule

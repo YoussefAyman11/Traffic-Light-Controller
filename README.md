@@ -1,5 +1,5 @@
 # Traffic-Light-Controller
-traffic light controller for the intersection of street "A" and street "B". Each street has traffic sensors, which detect the presence of vehicles approaching or stopped at the intersection.
+Traffic light controller for the intersection of street "A" and street "B". Each street has traffic sensors, which detect the presence of vehicles approaching or stopped at the intersection.
 
 If sensor A is asserted that means a vehicle is approaching on street "A" and If sensor B is asserted that means a vehicle is approaching on street "B".
 
